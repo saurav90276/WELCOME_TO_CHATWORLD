@@ -13,8 +13,8 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }))
-app.use(express.json())
 app.use(cookiesParser())
+app.use(express.json())
 
 const PORT = process.env.PORT || 8080
 

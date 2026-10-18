@@ -77,9 +77,7 @@ const Sidebar = () => {
                         <NavLink
                             to="/"
                             className={({ isActive }) =>
-                                `w-12 h-12 flex justify-center items-center cursor-pointer
-                     hover:bg-slate-200 rounded ${isActive ? "bg-slate-200" : ""
-                                }`
+                                `w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded ${isActive ? "bg-slate-200" : ""}`
                             }
                             title="chat"
                         >
@@ -89,8 +87,7 @@ const Sidebar = () => {
                         <div
                             title="add friend"
                             onClick={() => setOpenSearchUser(true)}
-                            className="w-12 h-12 flex justify-center items-center
-                           cursor-pointer hover:bg-slate-200 rounded"
+                            className="w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded"
                         >
                             <FaUserPlus size={20} />
                         </div>
@@ -99,7 +96,7 @@ const Sidebar = () => {
                     {/* Bottom icons */}
                     <div className="flex flex-col items-center">
                         <button
-                            className="w-12 h-12 flex justify-center items-center"
+                            className="mx-auto"
                             title={user?.name}
                             onClick={() => setEditUserOpen(true)}
                         >
@@ -114,8 +111,7 @@ const Sidebar = () => {
 
                         <button
                             title="logout"
-                            className="w-12 h-12 flex justify-center items-center
-                           cursor-pointer hover:bg-slate-200 rounded"
+                            className="w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded"
                             onClick={handleLogout}
                         >
                             <BiLogOut size={20} />
@@ -156,7 +152,7 @@ const Sidebar = () => {
                                 <div className='flex flex-col justify-center items-center'>
                                     <p className='text-lg text-center text-slate-400'>Explore users to start a conversation with...</p>
                                     <p className='mt-10'>
-                                    <span className=" bg-white/20 text-white text-center backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border bg-linear-to-r from-gray-500 to-cyan-950 border-white/20">Welcome to Nityansh Chat_World</span>
+                                        <span className=" bg-white/20 text-white text-center backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border bg-linear-to-r from-gray-500 to-cyan-950 border-white/20">Welcome to Nityansh Chat_World</span>
                                     </p>
                                 </div>
                             </div>
@@ -168,11 +164,13 @@ const Sidebar = () => {
                             return (
                                 <NavLink to={"/" + conv?.userDetails?._id} key={conv?._id} className='flex items-center gap-2 py-3 px-2 border border-transparent hover:border-primary rounded text-gray-50 hover:bg-gray-950 cursor-pointer'>
                                     <div>
+
                                         <Avatar
-                                            imageUrl={conv?.userDetails?.profile_pic}
-                                            name={conv?.userDetails?.name}
                                             width={40}
                                             height={40}
+                                            name={conv?.userDetails?.name}
+                                            imageUrl={conv?.userDetails?.profile_pic}
+                                            userId={conv?.userDetails?._id}
                                         />
                                     </div>
                                     <div>

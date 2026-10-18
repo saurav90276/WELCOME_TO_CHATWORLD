@@ -64,11 +64,9 @@ const CheckEmailPage = () => {
               <p className="text-slate-200 text-sm mt-2">Sign in to your account</p>
             </div>
 
-            <div className='w-fit mx-auto mb-2 text-gray-200'>
-                            <PiUserCircle
-                              size={80}
-                            />
-                        </div>
+            <p className='mt-10 flex justify-center items-center'>
+              <span className=" bg-white/20 text-white text-center backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border bg-linear-to-r from-gray-500 to-cyan-950 border-white/20">Welcome to Nityansh Chat_World</span>
+            </p>
 
             <form className='grid gap-4 mt-3' onSubmit={handleSubmit}>
 

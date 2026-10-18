@@ -17,21 +17,40 @@ const Home = () => {
 
   const fetchUserDetails = async () => {
     try {
-      const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`
+      const token = user.token || localStorage.getItem("token");
+
+      if (!token) {
+        console.log("No authentication token found");
+        navigate("/email");
+        return;
+      }
+      const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`;
+
       const response = await axios({
         url: URL,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         withCredentials: true
-      })
+      });
+      const userData = response.data.data;
 
-      dispatch(setUser(response.data.data))
-
-      if (response.data.data.logout) {
-        dispatch(logout())
-        navigate("/email")
+      if (!userData || userData.logout) {
+        console.error("User details missing:", response.data);
+        dispatch(logout());
+        navigate("/email");
+        return;
       }
-      console.log("current user Details", response)
+      if (response.data.success && response.data.data) {
+        dispatch(setUser(response.data.data));
+        console.log("current user Details", response)
+      }
     } catch (error) {
-      console.log("error", error)
+      console.error(
+        "User details error:",
+        error.response?.data || error.message
+      );
     }
   }
 

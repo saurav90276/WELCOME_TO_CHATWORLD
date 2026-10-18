@@ -12,10 +12,7 @@ const getUserDetailsFromToken = async (token) => {
             throw new Error('JWT secret is not configured');
         }
 
-        const decoded = jwt.verify(
-            token,
-            process.env.JWT_SECREAT_KEY
-        );
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
         if (!decoded.id) {
             return null;
