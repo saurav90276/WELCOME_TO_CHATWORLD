@@ -63,9 +63,9 @@ const Sidebar = () => {
     }
 
     return (
-        
+
         <div className='w-full h-full grid-cols-[48px,1fr] bg-gray-950'>
-            <AuthLayouts/>
+            <AuthLayouts />
 
             <div className="flex items-start w-full">
 
@@ -153,7 +153,12 @@ const Sidebar = () => {
                                         size={50}
                                     />
                                 </div>
-                                <p className='text-lg text-center text-slate-400'>Explore users to start a conversation with.</p>
+                                <div className='flex flex-col justify-center items-center'>
+                                    <p className='text-lg text-center text-slate-400'>Explore users to start a conversation with...</p>
+                                    <p className='mt-10'>
+                                    <span className=" bg-white/20 text-white text-center backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border bg-linear-to-r from-gray-500 to-cyan-950 border-white/20">Welcome to Nityansh Chat_World</span>
+                                    </p>
+                                </div>
                             </div>
                         )
                     }
