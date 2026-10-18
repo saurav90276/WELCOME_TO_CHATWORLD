@@ -13,75 +13,92 @@ const Home = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  console.log('user',user)
-  const fetchUserDetails = async()=>{
+  console.log('user', user)
+
+  const fetchUserDetails = async () => {
     try {
-        const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`
-        const response = await axios({
-          url : URL,
-          withCredentials : true
-        })
+      const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user-details`
+      const response = await axios({
+        url: URL,
+        withCredentials: true
+      })
 
-        dispatch(setUser(response.data.data))
+      dispatch(setUser(response.data.data))
 
-        if(response.data.data.logout){
-            dispatch(logout())
-            navigate("/email")
-        }
-        console.log("current user Details",response)
+      if (response.data.data.logout) {
+        dispatch(logout())
+        navigate("/email")
+      }
+      console.log("current user Details", response)
     } catch (error) {
-        console.log("error",error)
+      console.log("error", error)
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchUserDetails()
-  },[])
+  }, [])
 
   /***socket connection */
-  useEffect(()=>{
-    const socketConnection = io(import.meta.env.VITE_BACKEND_URL,{
-      auth : {
-        token : localStorage.getItem('token')
+
+  /*** Socket connection */
+  useEffect(() => {
+    // Wait until the user is authenticated
+    if (!user.token) return;
+
+    const socketConnection = io(import.meta.env.VITE_BACKEND_URL, {
+      auth: {
+        token: user.token
       },
-    })
+      withCredentials: true
+    });
 
-    socketConnection.on('onlineUser',(data)=>{
-      console.log(data)
-      dispatch(setOnlineUser(data))
-    })
+    socketConnection.on('connect', () => {
+      console.log('Socket connected:', socketConnection.id);
+    });
 
-    dispatch(setSocketConnection(socketConnection))
+    socketConnection.on('connect_error', (error) => {
+      console.error('Socket connection error:', error.message);
+    });
 
-    return ()=>{
-      socketConnection.disconnect()
-    }
-  },[])
+    socketConnection.on('onlineUser', (data) => {
+      console.log('Online users:', data);
+      dispatch(setOnlineUser(data));
+    });
+
+    dispatch(setSocketConnection(socketConnection));
+
+    return () => {
+      socketConnection.disconnect();
+      dispatch(setSocketConnection(null));
+    };
+  }, [user.token, dispatch]);
+
 
 
   const basePath = location.pathname === '/'
   return (
     <div className='grid lg:grid-cols-[300px,1fr] h-screen max-h-screen'>
-        <section className={`bg-white ${!basePath && "hidden"} lg:block`}>
-           <Sidebar/>
-        </section>
+      <section className={`bg-white ${!basePath && "hidden"} lg:block`}>
+        <Sidebar />
+      </section>
 
-        {/**message component**/}
-        <section className={`${basePath && "hidden"}`} >
-            <Outlet/>
-        </section>
+      {/**message component**/}
+      <section className={`${basePath && "hidden"}`} >
+        <Outlet />
+      </section>
 
 
-        <div className={`justify-center items-center flex-col gap-2 hidden ${!basePath ? "hidden" : "lg:flex" }`}>
-            <div>
-              <img
-                src={logo}
-                width={250}
-                alt='logo'
-              />
-            </div>
-            <p className='text-lg mt-2 text-slate-500'>Select user to send message</p>
+      <div className={`justify-center items-center flex-col gap-2 hidden ${!basePath ? "hidden" : "lg:flex"}`}>
+        <div>
+          <img
+            src={logo}
+            width={250}
+            alt='logo'
+          />
         </div>
+        <p className='text-lg mt-2 text-slate-500'>Select user to send message</p>
+      </div>
     </div>
   )
 }

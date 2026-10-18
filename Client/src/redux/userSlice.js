@@ -25,6 +25,10 @@ export const userSlice = createSlice({
       state.email = user.email ?? ""
       state.profile_pic = user.profile_pic ?? ""
 
+      if (user.token) {
+        state.token = user.token;
+      }
+
     },
     setToken: (state, action) => {
       state.token = action.payload
