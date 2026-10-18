@@ -27,8 +27,13 @@ app.get('/',(request,response)=>{
 //api endpoints
 app.use('/api',router)
 
-connectDB().then(()=>{
-    server.listen(PORT,()=>{
-        console.log("server running at " + PORT)
-    })
-})
+
+connectDB().then(() => {
+    server.listen(PORT, "0.0.0.0", () => {
+        console.log("Server running at " + PORT);
+    });
+}).catch((error) => {
+    console.error("MongoDB connection failed:", error);
+    process.exit(1);
+});
+
